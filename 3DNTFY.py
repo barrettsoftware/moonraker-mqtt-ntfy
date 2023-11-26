@@ -15,7 +15,7 @@ MQTT_TOPICS = [
 ]
 
 # ntfy Settings
-NTFY_URL = "https://ntfy.xer0.io/3D"
+NTFY_URL = "https://ntfy.domain.com/topic"
 
 # Track the last status and filename for each printer
 last_status = {}
