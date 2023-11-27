@@ -32,9 +32,6 @@ MQTT_TOPICS = [
     "printer-1/klipper/state/print_stats/filename",
     "printer-2/klipper/state/print_stats/filename"
 ]
-```
-# ntfy Settings
-```
 NTFY_URL = "https://ntfy.domain.com/topic"
 ```
 
