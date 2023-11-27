@@ -1,12 +1,12 @@
-## Purpose of the Script
+# Purpose of the Script
 This Python script will send NTFY notifications based on MQTT information from moonraker. The script can run on any host that has access to the moonraker instance and the ntfy server. You can even run this on the computer running moonraker/klipper. This script allows you to monitor 3D printers running moonraker with the NTFY service. The script is written to track the status of two printers. It can easily be extended. For each printer you must map the MQTT topic for the *state* and *filename*.
 
-# Requirements
+## Requirements
 1. Any 3D printer running moonraker or klipper, not sure what to call it. (https://www.klipper3d.org/)
 2. Operational ntfy server for notifications (check out ntfy.sh)
 3. Any MQTT broker (I used moquitto https://mosquitto.org/)
 
-## Step 1: Add MQTT snippet to moonraker.conf
+### Step 1: Add MQTT snippet to moonraker.conf
 ```
 [mqtt]
 address: 192.168.1.20
@@ -25,7 +25,7 @@ status_objects:
 default_qos: 0
 ```
 
-# Step 2: Set the following Variables in the Script:
+### Step 2: Set the following Variables in the Script:
 ```
 MQTT_BROKER = "192.168.1.20"
 MQTT_PORT = 1883 
@@ -40,12 +40,12 @@ MQTT_TOPICS = [
 NTFY_URL = "https://ntfy.domain.com/topic"
 ```
 
-# Step 3: Run the Script
+### Step 3: Run the Script
 You can just run the script manually with 
 ```
 python3 3DNTFY.py
 ```
-# Step 4: Turn the script into a service (Commands are for Ubuntu 22.04)
+### Step 4: Turn the script into a service (Commands are for Ubuntu 22.04)
 What I did is created a service so that the script is always running. This requires you to create new service helper file and then
  turn the script into a service. I put the script itself into /etc/scripts/3DNTFY.py and then ran the following commands to turn it into a service.
 
