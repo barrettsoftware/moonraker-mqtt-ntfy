@@ -39,10 +39,12 @@ NTFY_URL = "https://ntfy.domain.com/topic"
 ```
 
 # Step 3: Run the Script
-You can just run the script manually with *python3 3DNTFY.py*
-
-What I did is created a service. This requires you to create new file
-You can turn the script into a service. I put the script into /etc/scripts/3DNTFY.py and then ran the following commands
+You can just run the script manually with 
+```
+python3 3DNTFY.py
+```
+What I did is created a service so that the script is always running. This requires you to create new service helper file and then
+ turn the script into a service. I put the script itself into /etc/scripts/3DNTFY.py and then ran the following commands to turn it into a service.
 
 
 ```
