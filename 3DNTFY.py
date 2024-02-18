@@ -9,11 +9,11 @@ MQTT_USERNAME = ""  # Optional
 MQTT_PASSWORD = ""  # Optional
 MQTT_TOPICS = [
     "printer-A/klipper/state/print_stats/state",
-    "printer-B/klipper/state/print_stats/state",
     "printer-A/klipper/state/print_stats/filename",
+    "printer-A/klipper/state/print_stats/print_duration",  # Added print duration topic for printer-A
+    "printer-B/klipper/state/print_stats/state",
     "printer-B/klipper/state/print_stats/filename",
-    "printer-A/klipper/state/print_stats/print_duration",  # Added print duration topic for Sovol
-    "printer-endBer/klipper/state/print_stats/print_duration"    # Added print duration topic for Ender
+    "printer-b/klipper/state/print_stats/print_duration"    # Added print duration topic for printer-B
 ]
 
 # ntfy Settings
@@ -26,7 +26,7 @@ last_print_duration = {}  # Track the last print duration
 
 # Mapping of MQTT topic names to friendly printer names
 friendly_names = {
-    "printer-A": "Sovol",
+    "printer-A": "Prusa",
     "printer-B": "Ender"
 }
 

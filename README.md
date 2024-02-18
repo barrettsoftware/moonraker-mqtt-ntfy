@@ -26,19 +26,20 @@ default_qos: 0
 ```
 
 ## Step 2: Set the following Variables in the Script:
+I am using the script to monitor 2 printers so I just 
 ```
 # MQTT Settings
 MQTT_BROKER = "192.168.1.6"
-MQTT_PORT = 1883
+MQTT_PORT = 1883 
 MQTT_USERNAME = ""  # Optional
 MQTT_PASSWORD = ""  # Optional
 MQTT_TOPICS = [
-    "printer-sovol/klipper/state/print_stats/state",
-    "printer-ender/klipper/state/print_stats/state",
-    "printer-sovol/klipper/state/print_stats/filename",
-    "printer-ender/klipper/state/print_stats/filename",
-    "printer-sovol/klipper/state/print_stats/print_duration",  # Added print duration topic for Sovol
-    "printer-ender/klipper/state/print_stats/print_duration"    # Added print duration topic for Ender
+    "printer-A/klipper/state/print_stats/state",
+    "printer-A/klipper/state/print_stats/filename",
+    "printer-A/klipper/state/print_stats/print_duration",  # Added print duration topic for printer-A
+    "printer-B/klipper/state/print_stats/state",
+    "printer-B/klipper/state/print_stats/filename",
+    "printer-b/klipper/state/print_stats/print_duration"    # Added print duration topic for printer-B
 ]
 ```
 
