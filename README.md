@@ -9,11 +9,11 @@ This Python script will send NTFY notifications based on MQTT information from m
 ## Step 1: Add MQTT snippet to moonraker.conf
 ```
 [mqtt]
-address: 192.168.1.20
+address: 192.168.1.6
 port: 1883
 mqtt_protocol: v3.1.1
 enable_moonraker_api: False
-instance_name: printer-sovol
+instance_name: printer-ender
 publish_split_status: True
 status_objects:
     webhooks
@@ -27,17 +27,19 @@ default_qos: 0
 
 ## Step 2: Set the following Variables in the Script:
 ```
-MQTT_BROKER = "192.168.1.20"
-MQTT_PORT = 1883 
+# MQTT Settings
+MQTT_BROKER = "192.168.1.6"
+MQTT_PORT = 1883
 MQTT_USERNAME = ""  # Optional
 MQTT_PASSWORD = ""  # Optional
 MQTT_TOPICS = [
-    "printer-1/klipper/state/print_stats/state",
-    "printer-2/klipper/state/print_stats/state",
-    "printer-1/klipper/state/print_stats/filename",
-    "printer-2/klipper/state/print_stats/filename"
+    "printer-sovol/klipper/state/print_stats/state",
+    "printer-ender/klipper/state/print_stats/state",
+    "printer-sovol/klipper/state/print_stats/filename",
+    "printer-ender/klipper/state/print_stats/filename",
+    "printer-sovol/klipper/state/print_stats/print_duration",  # Added print duration topic for Sovol
+    "printer-ender/klipper/state/print_stats/print_duration"    # Added print duration topic for Ender
 ]
-NTFY_URL = "https://ntfy.domain.com/topic"
 ```
 
 ## Step 3: Run the Script
