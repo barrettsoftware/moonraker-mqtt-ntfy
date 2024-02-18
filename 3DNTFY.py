@@ -3,28 +3,31 @@ import requests
 import json
 
 # MQTT Settings
-MQTT_BROKER = "192.168.1.20"
-MQTT_PORT = 1883
+MQTT_BROKER = "192.168.1.6"
+MQTT_PORT = 1883 
 MQTT_USERNAME = ""  # Optional
 MQTT_PASSWORD = ""  # Optional
 MQTT_TOPICS = [
-    "printer-1/klipper/state/print_stats/state",
-    "printer-2/klipper/state/print_stats/state",
-    "printer-1/klipper/state/print_stats/filename",
-    "printer-2/klipper/state/print_stats/filename"
+    "printer-A/klipper/state/print_stats/state",
+    "printer-B/klipper/state/print_stats/state",
+    "printer-A/klipper/state/print_stats/filename",
+    "printer-B/klipper/state/print_stats/filename",
+    "printer-A/klipper/state/print_stats/print_duration",  # Added print duration topic for Sovol
+    "printer-endBer/klipper/state/print_stats/print_duration"    # Added print duration topic for Ender
 ]
 
 # ntfy Settings
 NTFY_URL = "https://ntfy.domain.com/topic"
 
-# Track the last status and filename for each printer
+# Track the last status, filename, and print duration for each printer
 last_status = {}
 last_filename = {}
+last_print_duration = {}  # Track the last print duration
 
 # Mapping of MQTT topic names to friendly printer names
 friendly_names = {
-    "printer-1": "Friendlyname1",
-    "printer-2": "Friendlyname2"
+    "printer-A": "Sovol",
+    "printer-B": "Ender"
 }
 
 # Emoji mapping for different statuses
@@ -42,18 +45,17 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     print(f"Message received: {msg.topic} {str(msg.payload)}")
     payload = json.loads(msg.payload.decode())["value"]
-    
-    # Extract printer name key from topic
+
     topic_parts = msg.topic.split('/')
-    if topic_parts[0] == 'printer':
-        printer_name_key = '/'.join(topic_parts[:2])  # Joins 'printer' and the next part (e.g., 'ender-basement')
-    else:
-        printer_name_key = topic_parts[0]  # Directly takes the first part for topics like 'printer-sovol'
+    printer_name_key = '/'.join(topic_parts[:2])  # Joins 'printer' and the next part
     printer_name = friendly_names.get(printer_name_key, printer_name_key)
 
     if "filename" in msg.topic:
-        # This message is about the filename
         last_filename[printer_name] = payload
+    elif "print_duration" in msg.topic:
+        # Convert print duration from seconds to hours and minutes
+        duration_hours, duration_minutes = divmod(int(payload), 3600), divmod(int(payload) % 3600, 60)
+        last_print_duration[printer_name] = f"{duration_hours[0]}h {duration_minutes[0]}m"
     else:
         # This message is about the printer status
         if last_status.get(printer_name) != payload:
@@ -62,15 +64,16 @@ def on_message(client, userdata, msg):
 
 def send_notification(printer_name, status):
     friendly_status = {
-        "printing": "has started printing", 
-        "complete": "has finished printing", 
+        "printing": "has started printing",
+        "complete": "has finished printing",
         "cancelled": "print was cancelled"
     }
     emoji = status_emojis.get(status, "")
     filename = last_filename.get(printer_name, "unknown file")
+    duration = last_print_duration.get(printer_name, "duration unknown")  # Get the print duration
 
-    # Format the message with filename
-    message = f"{emoji} {printer_name} {friendly_status.get(status, 'status changed to ' + status)}. Printing: {filename}"
+    # Format the message with filename and duration
+    message = f"{emoji} {printer_name} {friendly_status.get(status, 'status changed to ' + status)}. Printing: {filename}. Duration: {duration}"
 
     headers = {
         "Content-Type": "text/plain; charset=utf-8"
