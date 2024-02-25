@@ -36,10 +36,10 @@ MQTT_PASSWORD = ""  # Optional
 MQTT_TOPICS = [
     "printer-A/klipper/state/print_stats/state",
     "printer-A/klipper/state/print_stats/filename",
-    "printer-A/klipper/state/print_stats/print_duration",  # Added print duration topic for printer-A
+    "printer-A/klipper/state/print_stats/total_duration",  # Added duration topic for printer-A
     "printer-B/klipper/state/print_stats/state",
     "printer-B/klipper/state/print_stats/filename",
-    "printer-b/klipper/state/print_stats/print_duration"    # Added print duration topic for printer-B
+    "printer-b/klipper/state/print_stats/total_duration"    # Added duration topic for printer-B
 ]
 ```
 
